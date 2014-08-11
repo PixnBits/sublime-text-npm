@@ -1,12 +1,7 @@
 import subprocess, json
 import sublime, sublime_plugin
 
-# one of these should work...none do???
-# from sublime-text-npm import NpmCommand
-from command import NpmCommand
-# from sublime_text_npm import NpmCommand
-# import command.NpmCommand
-# from SublimeTextNpm import NpmCommand
+from npm.command import NpmCommand
 
 class NpmInstall(NpmCommand):
 	def prompt_for_package_name(self, on_done, on_change=None, on_cancel=None):
