@@ -8,7 +8,7 @@ npm commands within Sublime Text
 Installation
 ============
 
-Standard [Package Control](https://sublime.wbond.net/) method pending [patch approval](https://github.com/wbond/package_control_channel/pull/3505).
+Standard [Package Control](https://sublime.wbond.net/) method pending [patch approval](https://github.com/wbond/package_control_channel/pull/3508).
 
 Manual? be sure to rename directory to `npm` instead of `sublime-text-npm`
 
