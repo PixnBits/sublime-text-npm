@@ -10,5 +10,14 @@
   {
     "caption": "npm: Install and Save Development Package",
     "command": "npm_install_save_dev"
+  },
+
+  {
+    "caption": "npm: List Installed Packages",
+    "command": "npm_list"
+  },
+  {
+    "caption": "npm: List Installed Packages, Deep",
+    "command": "npm_list_deep"
   }
 ]
