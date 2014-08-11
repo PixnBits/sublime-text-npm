@@ -1,0 +1,14 @@
+[
+  {
+    "caption": "npm: Install Package",
+    "command": "npm_install"
+  },
+  {
+    "caption": "npm: Install and Save Package",
+    "command": "npm_install_save"
+  },
+  {
+    "caption": "npm: Install and Save Development Package",
+    "command": "npm_install_save_dev"
+  }
+]
