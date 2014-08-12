@@ -8,7 +8,7 @@ class NpmUpdateCommand(NpmCommand, sublime_plugin.TextCommand):
 		package_list_data = NpmListCommand.list_direct_packages_data(self)
 		if("dependencies" in package_list_data.keys()):
 			self.package_names = [True]
-			self.package_titles = ['All']
+			self.package_titles = ['Update All']
 			dependencies = package_list_data["dependencies"]
 			dependency_names = dependencies.keys()
 			#self.output_textarea("dependencies: "+str(dependency_list))
