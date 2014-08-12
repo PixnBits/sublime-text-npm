@@ -7,11 +7,12 @@ npm commands within Sublime Text (v3)
 
 Installation
 ============
-1. Install [Package Control](https://sublime.wbond.net/installation)
-2. Open the "[Command Pallet](http://sublime-text-unofficial-documentation.readthedocs.org/en/latest/extensibility/command_palette.html#command-palette)" (<kbd>CTRL</kbd>+<kbd>SHIFT</kbd>+<kbd>P</kbd> or <kbd>⌘</kbd>+<kbd>SHIFT</kbd>+<kbd>P</kbd>)
-3. type "pkgctlinspkg" (for "Package Control: Install Package" ;-)
-4. type "[npm](https://sublime.wbond.net/packages/npm)"
-5. Tah-dah!
+1. Install [node and npm](http://nodejs.org/) on your machine
+2. Install [Package Control](https://sublime.wbond.net/installation) in Sublime Text
+3. Open the "[Command Pallet](http://sublime-text-unofficial-documentation.readthedocs.org/en/latest/extensibility/command_palette.html#command-palette)" (<kbd>CTRL</kbd>+<kbd>SHIFT</kbd>+<kbd>P</kbd> or <kbd>⌘</kbd>+<kbd>SHIFT</kbd>+<kbd>P</kbd>)
+4. type "pkgctlinspkg" (for "Package Control: Install Package" ;-)
+5. type "[npm](https://sublime.wbond.net/packages/npm)"
+6. Tah-dah!
 
 Commands Implemented
 ====================
