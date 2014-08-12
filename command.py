@@ -11,7 +11,10 @@ class NpmCommand(object):
 		#self.npm_path = ...
 
 	def run_npm(self, commands):
-		dir_name = os.path.dirname(self.view.file_name())
+		active_file_name = self.view.file_name()
+		if not active_file_name:
+			return [-1, "", "no focused file to look at parent npm package"]
+		dir_name = os.path.dirname(active_file_name)
 		proc = subprocess.Popen(['npm']+commands, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=dir_name)
 		out, err = proc.communicate()
 		return_code = proc.poll()
