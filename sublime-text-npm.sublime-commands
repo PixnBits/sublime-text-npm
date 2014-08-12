@@ -19,5 +19,10 @@
   {
     "caption": "npm: List Installed Packages, Deep",
     "command": "npm_list_deep"
+  },
+
+  {
+    "caption": "npm: Update Local Packages",
+    "command": "npm_update"
   }
 ]

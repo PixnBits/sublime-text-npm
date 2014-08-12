@@ -1,11 +1,10 @@
-import subprocess, json
 import sublime, sublime_plugin
 
-from npm.command import NpmCommand
+from .command import NpmCommand
 
 class NpmInstall(NpmCommand):
 	def prompt_for_package_name(self, on_done, on_change=None, on_cancel=None):
-		sublime.status_message("npm install...something")
+		#sublime.status_message("npm install...something")
 		#self.view.insert(edit, 0, "Hello, World!")
 		window = sublime.active_window()
 		#window.show_quick_panel(['hi there','how\s the melting going?'], None, sublime.MONOSPACE_FONT)
@@ -19,7 +18,7 @@ class NpmInstallCommand(NpmInstall, sublime_plugin.TextCommand):
 		self.prompt_for_package_name(self.install_done)
 
 	def install_done(self, package_name):
-		self.run_npm(['install', package_name])
+		self.run_npm_and_show(['install', package_name])
 
 
 class NpmInstallSaveCommand(NpmInstall, sublime_plugin.TextCommand):
@@ -27,7 +26,7 @@ class NpmInstallSaveCommand(NpmInstall, sublime_plugin.TextCommand):
 		self.prompt_for_package_name(self.install_done)
 
 	def install_done(self, package_name):
-		self.run_npm(['install', package_name, '--save'])
+		self.run_npm_and_show(['install', package_name, '--save'])
 
 
 class NpmInstallSaveDevCommand(NpmInstall, sublime_plugin.TextCommand):
@@ -35,4 +34,4 @@ class NpmInstallSaveDevCommand(NpmInstall, sublime_plugin.TextCommand):
 		self.prompt_for_package_name(self.install_done)
 
 	def install_done(self, package_name):
-		self.run_npm(['install', package_name, '--save-dev'])
+		self.run_npm_and_show(['install', package_name, '--save-dev'])
