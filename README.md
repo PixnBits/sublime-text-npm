@@ -32,3 +32,7 @@ If you don't see your favorite here, please [file an issue](https://github.com/P
 
 [Search](https://www.npmjs.org/doc/cli/npm-search.html)
 * Search Packages `npm search <name>`
+
+[Link](https://www.npmjs.org/doc/cli/npm-link.html)
+* Register this Package for Linking `npm link`
+* Link Package Here `npm link <name>`
