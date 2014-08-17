@@ -10,7 +10,7 @@ class NpmCommand(CLI):
 	def run_npm(self, commands):
 		active_file_name = self.view.file_name()
 		if not active_file_name:
-			return [-1, "", "no focused file to look at parent npm package"]
+			return [-1, "", "Please open a file in your npm project so npm knows where to run"]
 		dir_name = os.path.dirname(active_file_name)
 		return_code, out, err = self.execute(commands, dir_name)
 		# return the process result
