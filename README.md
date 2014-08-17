@@ -29,3 +29,6 @@ If you don't see your favorite here, please [file an issue](https://github.com/P
 
 [Update](https://www.npmjs.org/doc/cli/npm-update.html)
 * Update Local Packages: `npm update` or `npm update <name>`
+
+[Search](https://www.npmjs.org/doc/cli/npm-search.html)
+* Search Packages `npm search <name>`
