@@ -24,5 +24,10 @@
   {
     "caption": "npm: Update Local Packages",
     "command": "npm_update"
+  },
+
+  {
+    "caption": "npm: Search Packages",
+    "command": "npm_search"
   }
 ]
