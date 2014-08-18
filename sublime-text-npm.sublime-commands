@@ -38,5 +38,14 @@
   {
     "caption": "npm: Search Packages",
     "command": "npm_search"
+  },
+
+  {
+    "caption": "npm: Register this Package for Linking",
+    "command": "npm_link_register"
+  },
+  {
+    "caption": "npm: Link Package Here",
+    "command": "npm_link_use"
   }
 ]
