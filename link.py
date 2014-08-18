@@ -17,14 +17,18 @@ class NpmLinkUseCommand(NpmLink, sublime_plugin.TextCommand):
 		# find where npm links packages
 		code, prefix, err = self.run_npm(['config', 'get', 'prefix'])
 		if prefix:
-			# remove whitespace, such as trailing EOL chars
-			prefix = prefix.strip()
-			#self.output_textarea("prefix: "+str(prefix))
-			# now list out the packages at npm/node_modules
-			module_dir = os.path.join(os.path.normpath(prefix), 'node_modules')
+			# remove whitespace, such as trailing EOL chars, and normalize
+			prefix = os.path.normpath(prefix.strip())
+			# now list out the packages at `node_modules`
+			# platform difference, see https://github.com/PixnBits/sublime-text-npm/issues/2#issuecomment-52543172
+			if os.name == 'nt':
+				module_dir = os.path.join(prefix, 'node_modules')
+			else:
+				module_dir = os.path.join(prefix, 'lib', 'node_modules')
 			#self.output_textarea("module_dir: "+module_dir)
 			# check for directories?
 			self.package_names = []
+			#TODO check to ensure dir exists
 			for entry in os.listdir(module_dir):
 				if os.path.isdir( os.path.join(module_dir, entry) ):
 					self.package_names.append(entry)
