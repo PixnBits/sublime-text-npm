@@ -14,6 +14,13 @@ Installation
 5. type "[npm](https://sublime.wbond.net/packages/npm)"
 6. Tah-dah!
 
+Usage
+=====
+1. Open a file (usually a *.js or *.coffee) in your npm project/package
+2. <kbd>CTRL</kbd>+<kbd>SHIFT</kbd>+<kbd>P</kbd> or <kbd>⌘</kbd>+<kbd>SHIFT</kbd>+<kbd>P</kbd>
+3. Type `npm: ` to see all npm commands
+4. Press <kbd>Enter</kbd> to invoke the selected command. The npm command will be run in the directory of your focused file.
+
 Commands Implemented
 ====================
 If you don't see your favorite here, please [file an issue](https://github.com/PixnBits/sublime-text-npm/issues).
