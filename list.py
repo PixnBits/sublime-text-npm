@@ -46,7 +46,7 @@ class NpmList(NpmCommand):
 		return pkg_list
 
 	def list_and_show(self, depth=0, on_done=None):
-		pkg_list = self.list(depth)
+		pkg_list = NpmList.list(self, depth)
 		self.package_names = []
 		packages = []
 		for pkg in pkg_list:
