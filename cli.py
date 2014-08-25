@@ -29,7 +29,7 @@ class CLI():
                 return path
         sublime.error_message(BINARY_NAME + ' could not be found in your $PATH. Check the installation guidelines - https://github.com/PixnBits/sublime-text-npm')
 
-    def execute(self, command, cwd):
+    def _prepare_command(self, command):
         binary = self.find_binary()
         command.insert(0, binary)
 
@@ -42,6 +42,11 @@ class CLI():
         # see http://stackoverflow.com/a/1254322/2770309
         if os.name != 'nt':
             command = " ".join(command)
+
+        return [command, cflags]
+
+    def execute(self, command, cwd):
+        command, cflags = self._prepare_command(command)
         proc = subprocess.Popen(command, shell=True, cwd=cwd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, creationflags=cflags)
 
         stdout_data, stderr_data = proc.communicate()
@@ -53,3 +58,50 @@ class CLI():
             stderr_data = stderr_data.decode('utf-8')
 
         return [returncode, stdout_data, stderr_data]
+
+    # based on http://stackoverflow.com/a/4418193
+    def execute_long_running(self, command, cwd, on_readline):
+        command, cflags = self._prepare_command(command)
+        process = subprocess.Popen(command, shell=True, cwd=cwd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, creationflags=cflags)
+        #process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
+        process_handler = CliLong()
+        process_handler.set_process(process)
+        process_handler.set_callback(on_readline)
+
+        process_handler.start_reading()
+
+        return process_handler
+
+
+class CliLong(object):
+    def set_process(self, process):
+        self.process = process
+
+    def set_callback(self, callback, callback_self=None):
+        self.callback = callback
+        if callback_self:
+            self.callback_self = callback_self
+
+    def start_reading(self, interval=100):
+        # TODO: make interval configurable
+        self.interval = interval
+        sublime.set_timeout(self._readline, interval)
+
+    def _readline(self):
+        process = self.process
+        nextline = process.stdout.readline()
+        nextline = nextline.decode('utf-8')
+
+        if nextline == '' and process.poll() != None:
+            output = process.communicate()[0]
+            exitCode = process.returncode
+
+            if (exitCode == 0):
+                return output
+            else:
+                raise ProcessException(command, exitCode, output)
+
+        self.callback(nextline)
+        # TODO: make interval configurable
+        sublime.set_timeout(self._readline, 100)

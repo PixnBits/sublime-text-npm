@@ -43,3 +43,37 @@ class NpmCommand(CLI):
 
 	def run_npm_and_show(self, commands):
 		self.show_npm_output(self.run_npm(commands))
+
+	# adapted from https://github.com/kemayo/sublime-text-git/blob/64ec693f43b4803690e5d92852e41975f3b8855a/git.py#L199
+	def scratch(self, output=False, title=False):
+		window = sublime.active_window()
+		scratch_file = window.new_file()
+		if title:
+			scratch_file.set_name(title)
+		scratch_file.set_scratch(True)
+		if output:
+			self.scratch_append(scratch_file, output)
+		scratch_file.set_read_only(True)
+		return scratch_file
+
+	def scratch_append(self, scratch_file, output):
+		window = sublime.active_window()
+		window.run_command( "npm_scratch_append", {"scratch_file_id":scratch_file.id(), "output":output} )
+
+	# can't find a sublime API call for this
+	def get_view_by_id(self, vid):
+		if not vid:
+			return None
+		for window in sublime.windows():
+			for view in window.views():
+				if view.id() == vid:
+					return view
+		return None
+
+# http://stackoverflow.com/a/20808586
+class NpmScratchAppendCommand(sublime_plugin.TextCommand):
+	def run(self, edit, scratch_file_id, output):
+		scratch_file = NpmCommand.get_view_by_id(self, scratch_file_id)
+		scratch_file.set_read_only(False)
+		scratch_file.insert(edit, scratch_file.size(), output)
+		scratch_file.set_read_only(True)

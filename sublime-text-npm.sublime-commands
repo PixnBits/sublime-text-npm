@@ -38,5 +38,10 @@
   {
     "caption": "npm: Link Package Here",
     "command": "npm_link_use"
+  },
+
+  {
+    "caption": "npm: Run...",
+    "command": "npm_run_arbitrary"
   }
 ]
