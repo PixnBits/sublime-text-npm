@@ -105,3 +105,6 @@ class CliLong(object):
         self.callback(nextline)
         # TODO: make interval configurable
         sublime.set_timeout(self._readline, 100)
+
+    def stop(self):
+        self.process.terminate()
