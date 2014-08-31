@@ -13,6 +13,15 @@
   },
 
   {
+    "caption": "npm: Remove/Uninstall Package",
+    "command": "npm_rm"
+  },
+  {
+    "caption": "npm: Remove/Uninstall Saved Package",
+    "command": "npm_rm_saved"
+  },
+
+  {
     "caption": "npm: List Installed Packages",
     "command": "npm_list"
   },

@@ -1,23 +1,19 @@
 import sublime, sublime_plugin
 
 from .command import NpmCommand
-from .list import NpmListCommand
+from .list import NpmList
 
 class NpmUpdateCommand(NpmCommand, sublime_plugin.TextCommand):
 	def run(self, edit):
-		package_list_data = NpmListCommand.list_direct_packages_data(self)
-		if("dependencies" in package_list_data.keys()):
+		dependencies = NpmList.list(self, 0)
+		if isinstance(dependencies, dict) and len(dependencies.keys()) > 0:
 			self.package_names = [True]
 			self.package_titles = ['Update All']
-			dependencies = package_list_data["dependencies"]
 			dependency_names = dependencies.keys()
-			#self.output_textarea("dependencies: "+str(dependency_list))
 			for dependency_name in dependency_names:
-				#dependency_names.push(dependency_name)
-				dep_ver = dependencies[dependency_name]["version"]
+				dep_ver = dependencies[dependency_name]
 				self.package_names.append(dependency_name)
 				self.package_titles.append(dependency_name + " ("+dep_ver+")")
-			#self.output_textarea("dependencies: "+str(dependency_names)+"\ntitles:\n"+str(self.package_titles)+"\n index try:"+self.package_names[2])
 		else:
 			# no dependencies found
 			self.package_names = [False]
