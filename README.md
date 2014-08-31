@@ -30,6 +30,10 @@ If you don't see your favorite here, please [file an issue](https://github.com/P
 * Install and Save Package: `npm install --save`
 * Install and Save Development Package: `npm install --save-dev`
 
+[Uninstall]():
+* Remove/Uninstall Package: `npm rm`
+* Remove/Uninstall Saved Package: `npm rm --save --save-dev -save-optional`
+
 [List](https://www.npmjs.org/doc/cli/npm-ls.html):
 * List Installed Packages: `npm list --depth 0`
 * List Installed Packages, Deep `npm list`
