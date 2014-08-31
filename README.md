@@ -32,14 +32,14 @@ If you don't see your favorite here, please [file an issue](https://github.com/P
 
 [List](https://www.npmjs.org/doc/cli/npm-ls.html):
 * List Installed Packages: `npm list --depth 0`
-* List Installed Packages, Deep `npm list`
+* List Installed Packages, Deep: `npm list`
 
-[Update](https://www.npmjs.org/doc/cli/npm-update.html)
+[Update](https://www.npmjs.org/doc/cli/npm-update.html):
 * Update Local Packages: `npm update` or `npm update <name>`
 
-[Search](https://www.npmjs.org/doc/cli/npm-search.html)
-* Search Packages `npm search <name>`
+[Search](https://www.npmjs.org/doc/cli/npm-search.html):
+* Search Packages: `npm search <name>`
 
-[Link](https://www.npmjs.org/doc/cli/npm-link.html)
-* Register this Package for Linking `npm link`
-* Link Package Here `npm link <name>`
+[Link](https://www.npmjs.org/doc/cli/npm-link.html):
+* Register this Package for Linking: `npm link`
+* Link Package Here: `npm link <name>`
