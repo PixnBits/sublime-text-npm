@@ -13,7 +13,8 @@ class NpmRmCommand(NpmCommand, sublime_plugin.TextCommand):
 		NpmList.list_and_show(self, 0, self.show_edit_options)
 
 	def show_edit_options(self, package_name_index):
-		# TODO
+		if package_name_index < 0:
+			return
 		selected_package_name = self.package_names[package_name_index]
 		if isinstance(selected_package_name, str):
 			# remove specific package
@@ -35,7 +36,8 @@ class NpmRmSavedCommand(NpmCommand, sublime_plugin.TextCommand):
 		NpmList.list_and_show(self, 0, self.show_edit_options)
 
 	def show_edit_options(self, package_name_index):
-		# TODO
+		if package_name_index < 0:
+			return
 		selected_package_name = self.package_names[package_name_index]
 		if isinstance(selected_package_name, str):
 			# remove specific dependency
