@@ -18,7 +18,8 @@ class NpmInstallCommand(NpmInstall, sublime_plugin.TextCommand):
 		self.prompt_for_package_name(self.install_done)
 
 	def install_done(self, package_name):
-		self.run_npm_and_show(['install', package_name])
+		# there might be >1 package name specified, split() is whitespace
+		self.run_npm_and_show(['install']+package_name.split())
 
 
 class NpmInstallSaveCommand(NpmInstall, sublime_plugin.TextCommand):
@@ -26,7 +27,7 @@ class NpmInstallSaveCommand(NpmInstall, sublime_plugin.TextCommand):
 		self.prompt_for_package_name(self.install_done)
 
 	def install_done(self, package_name):
-		self.run_npm_and_show(['install', package_name, '--save'])
+		self.run_npm_and_show(['install']+package_name.split()+['--save'])
 
 
 class NpmInstallSaveDevCommand(NpmInstall, sublime_plugin.TextCommand):
@@ -34,4 +35,4 @@ class NpmInstallSaveDevCommand(NpmInstall, sublime_plugin.TextCommand):
 		self.prompt_for_package_name(self.install_done)
 
 	def install_done(self, package_name):
-		self.run_npm_and_show(['install', package_name, '--save-dev'])
+		self.run_npm_and_show(['install']+package_name.split()+['--save-dev'])
