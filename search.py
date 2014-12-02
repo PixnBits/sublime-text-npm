@@ -5,8 +5,14 @@ from .command import NpmCommand
 
 class NpmSearch(NpmCommand):
 	def prompt_for_package_name(self, on_done, on_change=None, on_cancel=None):
+		selected_text = []
 		window = sublime.active_window()
-		window.show_input_panel('search npm for', '', on_done, on_change, on_cancel)
+		active_view = window.active_view()
+		for region in active_view.sel():
+			if not region.empty():
+				selected_text.append(active_view.substr(region))
+		selected_text = ' '.join(selected_text).replace('\n',' ').replace('\r',' ')
+		window.show_input_panel('search npm for', selected_text, on_done, on_change, on_cancel)
 
 
 class NpmSearchCommand(NpmSearch, sublime_plugin.TextCommand):
