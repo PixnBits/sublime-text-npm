@@ -1,0 +1,5 @@
+Enhancements
+============
+Allow multiple packages to be install in one command (#14)
+Use the active text selection as default text when prompting for input (#12)
+Use Package Manager's Messaging feature (tah-DAH!) (#8)
