@@ -10,6 +10,7 @@
 import sublime
 import os
 import subprocess
+import copy
 
 if os.name == 'nt':
     LOCAL_PATH = ';' + os.getenv('APPDATA') + '\\npm'
@@ -43,8 +44,15 @@ class CLI():
         # see http://stackoverflow.com/a/1254322/2770309
         if os.name != 'nt':
             command = " ".join(command)
+
+        # copy our extra places to look (#16)
+        environ = copy.copy(os.environ)
+        environ['PATH'] += LOCAL_PATH
+        #print("environ[PATH]: "+environ['PATH'])
+
         proc = subprocess.Popen(command,
             shell=True,
+            env=environ,
             cwd=cwd,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,

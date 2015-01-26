@@ -1,0 +1,6 @@
+Enhancements
+============
+
+Bug Fixes
+=========
+npm can't find node when `os.environ['PATH']` is changed from sublime's default (#16)
