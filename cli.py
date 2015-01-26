@@ -43,7 +43,13 @@ class CLI():
         # see http://stackoverflow.com/a/1254322/2770309
         if os.name != 'nt':
             command = " ".join(command)
-        proc = subprocess.Popen(command, shell=True, cwd=cwd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, creationflags=cflags)
+        proc = subprocess.Popen(command,
+            shell=True,
+            cwd=cwd,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            creationflags=cflags)
 
         stdout_data, stderr_data = proc.communicate()
         returncode = proc.wait()
