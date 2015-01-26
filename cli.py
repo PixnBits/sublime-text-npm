@@ -18,15 +18,16 @@ else:
     LOCAL_PATH = ':/usr/local/bin:/usr/local/sbin:/usr/local/share/npm/bin'
     BINARY_NAME = 'npm'
 
-os.environ['PATH'] += LOCAL_PATH
-
 class CLI():
     def find_binary(self):
-        print("find_binary")
-        for dir in os.environ['PATH'].split(os.pathsep):
+        # TODO: memoize?
+        appendedPath = os.environ['PATH']+LOCAL_PATH
+        for dir in appendedPath.split(os.pathsep):
             path = os.path.join(dir, BINARY_NAME)
             if os.path.exists(path):
+                #print("find_binary: "+path)
                 return path
+        #print("unable to find_binary with path "+appendedPath)
         sublime.error_message(BINARY_NAME + ' could not be found in your $PATH. Check the installation guidelines - https://github.com/PixnBits/sublime-text-npm')
 
     def execute(self, command, cwd):
