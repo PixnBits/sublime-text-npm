@@ -42,7 +42,7 @@ class NpmList(NpmCommand):
 				else:
 					pkg_list[dep] = True
 				if 'dependencies' in dep_data:
-					self.add_to_dep_list(pkg_list, dep_data)
+					NpmList.add_to_dep_list(self, pkg_list, dep_data)
 		return pkg_list
 
 	def list_and_show(self, depth=0, on_done=None):

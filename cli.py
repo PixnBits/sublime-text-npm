@@ -10,6 +10,7 @@
 import sublime
 import os
 import subprocess
+import copy
 
 if os.name == 'nt':
     LOCAL_PATH = ';' + os.getenv('APPDATA') + '\\npm'
@@ -18,15 +19,16 @@ else:
     LOCAL_PATH = ':/usr/local/bin:/usr/local/sbin:/usr/local/share/npm/bin'
     BINARY_NAME = 'npm'
 
-os.environ['PATH'] += LOCAL_PATH
-
 class CLI():
     def find_binary(self):
-        print("find_binary")
-        for dir in os.environ['PATH'].split(os.pathsep):
+        # TODO: memoize?
+        appendedPath = os.environ['PATH']+LOCAL_PATH
+        for dir in appendedPath.split(os.pathsep):
             path = os.path.join(dir, BINARY_NAME)
             if os.path.exists(path):
+                #print("find_binary: "+path)
                 return path
+        #print("unable to find_binary with path "+appendedPath)
         sublime.error_message(BINARY_NAME + ' could not be found in your $PATH. Check the installation guidelines - https://github.com/PixnBits/sublime-text-npm')
 
     def _prepare_command(self, command):
@@ -47,7 +49,19 @@ class CLI():
 
     def execute(self, command, cwd):
         command, cflags = self._prepare_command(command)
-        proc = subprocess.Popen(command, shell=True, cwd=cwd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, creationflags=cflags)
+        # copy our extra places to look (#16)
+        environ = copy.copy(os.environ)
+        environ['PATH'] += LOCAL_PATH
+        #print("environ[PATH]: "+environ['PATH'])
+
+        proc = subprocess.Popen(command,
+            shell=True,
+            env=environ,
+            cwd=cwd,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            creationflags=cflags)
 
         stdout_data, stderr_data = proc.communicate()
         returncode = proc.wait()
