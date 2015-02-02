@@ -47,3 +47,6 @@ If you don't see your favorite here, please [file an issue](https://github.com/P
 [Link](https://www.npmjs.org/doc/cli/npm-link.html):
 * Register this Package for Linking: `npm link`
 * Link Package Here: `npm link <name>`
+
+[Test](https://docs.npmjs.com/cli/test):
+* Test a package: `npm test`

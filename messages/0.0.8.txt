@@ -1,5 +1,7 @@
 Enhancements
 ============
+run arbitrary NPM commands (#9)
+`npm test` (#17)
 
 Bug Fixes
 =========

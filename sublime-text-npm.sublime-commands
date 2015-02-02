@@ -50,6 +50,11 @@
   },
 
   {
+    "caption": "npm: Run Tests",
+    "command": "npm_run_test"
+  },
+
+  {
     "caption": "npm: Run...",
     "command": "npm_run_arbitrary"
   }
