@@ -55,7 +55,7 @@
   },
 
   {
-    "caption": "npm: Run...",
+    "caption": "npm: Type Arbitrary Command",
     "command": "npm_run_arbitrary"
   }
 ]
