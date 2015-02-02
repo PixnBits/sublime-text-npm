@@ -33,7 +33,8 @@ class NpmRunArbitraryCommand(NpmCommand, sublime_plugin.TextCommand):
 		worker = NpmRunArbitraryWorker()
 		command_list = re.split("\s+", single_command)
 		worker.set_scratch_file(self.scratch(None, "npm "+ (" ".join(command_list)) ))
-		worker.set_process(self.execute_long_running(command_list, dir_name, worker.update_scratch_output))
+		worker.set_process(self.execute_long_running(command_list, dir_name, worker.update_scratch_output, worker.update_scratch_status))
+		worker.update_scratch_status()
 
 
 # list of NpmRunArbitraryWorker instances
@@ -56,14 +57,28 @@ class NpmRunArbitraryWorker(NpmCommand, sublime_plugin.EventListener):
 
 	def set_scratch_file(self, scratch_file):
 		self.scratch_file = scratch_file
+		self.scratch_name = scratch_file.name()
 
 	def update_scratch_output(self, message):
-		#print('update_scratch_output: '+message)
 		self.scratch_append(self.scratch_file, message)
+
+	def update_scratch_status(self, status=None):
+		name = self.scratch_name
+		if 0 == status:
+			# successful exit
+			name += " [Finished]"
+		elif not status:
+			# running
+			name += " [Running]"
+		else:
+			# error exit
+			name += " [Error]"
+		self.scratch_file.set_name(name)
 
 	def on_close(self, view):
 		# static method, self isn't actually an instance of NpmRunArbitraryWorker
 		# find a worker in running_arbitrary_workers that has the view closed
+		print("NpmRunArbitraryWorker on_close")
 		focused_worker = None
 		global running_arbitrary_workers
 		for worker in running_arbitrary_workers:
@@ -80,6 +95,9 @@ class NpmRunArbitraryWorker(NpmCommand, sublime_plugin.EventListener):
 
 		print("view closed "+str(focused_worker))
 		# stop the process
-		focused_worker.process.stop()
+		focused_worker.stop()
 		# remove ourself from the running_arbitrary_workers list
 		running_arbitrary_workers.remove(focused_worker)
+
+	def stop(self):
+		self.process.stop();

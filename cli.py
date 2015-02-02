@@ -60,14 +60,15 @@ class CLI():
         return [returncode, stdout_data, stderr_data]
 
     # based on http://stackoverflow.com/a/4418193
-    def execute_long_running(self, command, cwd, on_readline):
+    def execute_long_running(self, command, cwd, on_readline, on_exit=None):
         command, cflags = self._prepare_command(command)
         process = subprocess.Popen(command, shell=True, cwd=cwd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, creationflags=cflags)
         #process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
         process_handler = CliLong()
         process_handler.set_process(process)
-        process_handler.set_callback(on_readline)
+        process_handler.set_callback_line(on_readline)
+        process_handler.set_callback_exit(on_exit)
 
         process_handler.start_reading()
 
@@ -78,33 +79,47 @@ class CliLong(object):
     def set_process(self, process):
         self.process = process
 
-    def set_callback(self, callback, callback_self=None):
-        self.callback = callback
+    def set_callback_line(self, callback_line, callback_self=None):
+        self.callback_line = callback_line
         if callback_self:
             self.callback_self = callback_self
 
-    def start_reading(self, interval=100):
-        # TODO: make interval configurable
-        self.interval = interval
-        sublime.set_timeout(self._readline, interval)
+    def set_callback_exit(self, callback_exit, callback_self=None):
+        self.callback_exit = callback_exit
+        if callback_self:
+            self.callback_self = callback_self
 
-    def _readline(self):
+    def start_reading(self):
+        # in the api docs as set_async_timeout but
+        # per http://sublimetext.userecho.com/topic/165027-typo-on-st3-api-documentation/
+        # it is really set_timeout_async
+        sublime.set_timeout_async(self._readlines, 0)
+
+    def _readlines(self):
         process = self.process
-        nextline = process.stdout.readline()
-        nextline = nextline.decode('utf-8')
 
-        if nextline == '' and process.poll() != None:
-            output = process.communicate()[0]
-            exitCode = process.returncode
+        if not process:
+            print("no process")
+            return
 
-            if (exitCode == 0):
-                return output
-            else:
-                raise ProcessException(command, exitCode, output)
+        have_callback_line = hasattr(self, 'callback_line')
 
-        self.callback(nextline)
-        # TODO: make interval configurable
-        sublime.set_timeout(self._readline, 100)
+        nextline = True
+        while nextline:
+
+            nextline = process.stdout.readline()
+            nextline = nextline.decode('utf-8')
+
+            if have_callback_line:
+                self.callback_line(nextline)
+
+            if process.poll() != None:
+                self.returncode = process.returncode
+                if hasattr(self, 'callback_exit'):
+                    self.callback_exit(self.returncode)
+                return self.returncode
 
     def stop(self):
-        self.process.terminate()
+        if None == self.process.poll():
+            self.terminating = True
+            self.process.terminate()

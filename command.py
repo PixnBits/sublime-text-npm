@@ -74,6 +74,7 @@ class NpmCommand(CLI):
 class NpmScratchAppendCommand(sublime_plugin.TextCommand):
 	def run(self, edit, scratch_file_id, output):
 		scratch_file = NpmCommand.get_view_by_id(self, scratch_file_id)
-		scratch_file.set_read_only(False)
-		scratch_file.insert(edit, scratch_file.size(), output)
-		scratch_file.set_read_only(True)
+		if scratch_file:
+			scratch_file.set_read_only(False)
+			scratch_file.insert(edit, scratch_file.size(), output)
+			scratch_file.set_read_only(True)
