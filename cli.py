@@ -9,6 +9,7 @@
 
 import sublime
 import os
+import signal
 import subprocess
 import copy
 
@@ -76,7 +77,15 @@ class CLI():
     # based on http://stackoverflow.com/a/4418193
     def execute_long_running(self, command, cwd, on_readline, on_exit=None):
         command, cflags = self._prepare_command(command)
-        process = subprocess.Popen(command, shell=True, cwd=cwd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, creationflags=cflags)
+        process = subprocess.Popen(command,
+            shell=True,
+            cwd=cwd,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            creationflags=cflags,
+            #preexec_fn=os.setsid # http://stackoverflow.com/a/4791612/2770309
+        )
         #process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
         process_handler = CliLong()
@@ -128,12 +137,26 @@ class CliLong(object):
                 self.callback_line(nextline)
 
             if process.poll() != None:
+                if have_callback_line:
+                    output = process.communicate()[0]
+                    self.callback_line(output)
+                
                 self.returncode = process.returncode
                 if hasattr(self, 'callback_exit'):
                     self.callback_exit(self.returncode)
                 return self.returncode
 
     def stop(self):
-        if None == self.process.poll():
+        process = self.process
+        print("CliLong stop "+str(process.poll()))
+        if None == process.poll():
+            pid = process.pid
+            print("stopping process "+str(pid))
+            #print("dir process "+str(dir(process)))
             self.terminating = True
-            self.process.terminate()
+            process.terminate()
+            if process._child_created:
+                pid_child = pid + 1
+                print("pid_child: "+str(pid_child))
+                os.kill(pid_child, signal.SIGTERM)
+        print("CliLong stopped? e "+str(process.poll()))
