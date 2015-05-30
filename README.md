@@ -7,6 +7,7 @@ npm commands within Sublime Text (v3)
 
 Installation
 ============
+
 1. Install [node and npm](http://nodejs.org/) on your machine
 2. Install [Package Control](https://sublime.wbond.net/installation) in Sublime Text
 3. Open the "[Command Pallet](http://sublime-text-unofficial-documentation.readthedocs.org/en/latest/extensibility/command_palette.html#command-palette)" (<kbd>CTRL</kbd>+<kbd>SHIFT</kbd>+<kbd>P</kbd> or <kbd>⌘</kbd>+<kbd>SHIFT</kbd>+<kbd>P</kbd>)
@@ -16,6 +17,7 @@ Installation
 
 Usage
 =====
+
 1. Open a file (usually a *.js or *.coffee) in your npm project/package
 2. <kbd>CTRL</kbd>+<kbd>SHIFT</kbd>+<kbd>P</kbd> or <kbd>⌘</kbd>+<kbd>SHIFT</kbd>+<kbd>P</kbd>
 3. Type `npm: ` to see all npm commands
@@ -23,30 +25,38 @@ Usage
 
 Commands Implemented
 ====================
+
 If you don't see your favorite here, please [file an issue](https://github.com/PixnBits/sublime-text-npm/issues).
 
 [Install](https://www.npmjs.org/doc/cli/npm-install.html):
+
 * Install Package: `npm install`
 * Install and Save Package: `npm install --save`
 * Install and Save Development Package: `npm install --save-dev`
 
 [Uninstall]():
+
 * Remove/Uninstall Package: `npm rm`
 * Remove/Uninstall Saved Package: `npm rm --save --save-dev -save-optional`
 
 [List](https://www.npmjs.org/doc/cli/npm-ls.html):
+
 * List Installed Packages: `npm list --depth 0`
 * List Installed Packages, Deep: `npm list`
 
 [Update](https://www.npmjs.org/doc/cli/npm-update.html):
+
 * Update Local Packages: `npm update` or `npm update <name>`
 
 [Search](https://www.npmjs.org/doc/cli/npm-search.html):
+
 * Search Packages: `npm search <name>`
 
 [Link](https://www.npmjs.org/doc/cli/npm-link.html):
+
 * Register this Package for Linking: `npm link`
 * Link Package Here: `npm link <name>`
 
 [Test](https://docs.npmjs.com/cli/test):
+
 * Test a package: `npm test`
