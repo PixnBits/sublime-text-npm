@@ -78,7 +78,9 @@ class NpmRunArbitraryWorker(NpmCommand, sublime_plugin.EventListener):
 	def on_close(self, view):
 		# static method, self isn't actually an instance of NpmRunArbitraryWorker
 		# find a worker in running_arbitrary_workers that has the view closed
-		print("NpmRunArbitraryWorker on_close")
+		# I'm no Python guru, and Python's utilities to do this are full of wats
+		# hence the debug messages are commented out, rather than removed
+		#print("NpmRunArbitraryWorker on_close")
 		focused_worker = None
 		global running_arbitrary_workers
 		for worker in running_arbitrary_workers:
@@ -86,14 +88,14 @@ class NpmRunArbitraryWorker(NpmCommand, sublime_plugin.EventListener):
 				continue
 			if worker.scratch_file == view:
 				focused_worker = worker
-				print('found our worker')
+				#print('found our worker')
 				break
 
 		if not focused_worker:
-			print("closed view not in list")
+			#print("closed view not in list")
 			return
 
-		print("view closed "+str(focused_worker))
+		#print("view closed "+str(focused_worker))
 		# stop the process
 		focused_worker.stop()
 		# remove ourself from the running_arbitrary_workers list
