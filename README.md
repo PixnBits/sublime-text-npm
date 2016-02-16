@@ -44,6 +44,10 @@ If you don't see your favorite here, please [file an issue](https://github.com/P
 * List Installed Packages: `npm list --depth 0`
 * List Installed Packages, Deep: `npm list`
 
+[Outdated](https://docs.npmjs.com/cli/outdated):
+
+* Check for outdated packages: `npm outdated`
+
 [Update](https://www.npmjs.org/doc/cli/npm-update.html):
 
 * Update Local Packages: `npm update` or `npm update <name>`
