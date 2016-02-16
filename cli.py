@@ -8,6 +8,7 @@
 # this is a modified version (ex: overcome python bug 6689)
 
 import sublime
+from .settings import Settings
 import os
 import subprocess
 import copy
@@ -20,15 +21,23 @@ else:
     BINARY_NAME = 'npm'
 
 class CLI():
+    def load_settings(self):
+        # if self.settings:
+        #     return
+        self.settings = Settings()
+        if self.settings.has("path_to_npm"):
+            self.BINARY_FULL_PATH = self.settings.get("path_to_npm")
+
     def find_binary(self):
         # TODO: memoize?
+        self.load_settings()
+        if self.BINARY_FULL_PATH:
+            return self.BINARY_FULL_PATH
         appendedPath = os.environ['PATH']+LOCAL_PATH
         for dir in appendedPath.split(os.pathsep):
             path = os.path.join(dir, BINARY_NAME)
             if os.path.exists(path):
-                #print("find_binary: "+path)
                 return path
-        #print("unable to find_binary with path "+appendedPath)
         sublime.error_message(BINARY_NAME + ' could not be found in your $PATH. Check the installation guidelines - https://github.com/PixnBits/sublime-text-npm')
 
     def _prepare_command(self, command):
