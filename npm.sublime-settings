@@ -1,0 +1,4 @@
+{
+    // Custom path to npm when not in PATH
+    "path_to_npm": ""
+}
