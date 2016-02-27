@@ -1,8 +1,17 @@
 import sublime, sublime_plugin
 
-from .command import NpmCommand
+from .command import NpmCommand, ScratchWorker
 
-class NpmInstall(NpmCommand):
+class NpmInstall(NpmCommand, sublime_plugin.TextCommand):
+	def run(self, edit):
+		dir_name = self.get_dir_name()
+		if not dir_name:
+			return
+		worker = ScratchWorker()
+		worker.create_process(['install'], dir_name)
+
+
+class NpmInstallPackage(NpmCommand):
 	def prompt_for_package_name(self, on_done, on_change=None, on_cancel=None):
 		selected_text = []
 		window = sublime.active_window()
@@ -13,7 +22,7 @@ class NpmInstall(NpmCommand):
 		selected_text = ' '.join(selected_text).replace('\n',' ').replace('\r',' ')
 		window.show_input_panel('install package', selected_text, on_done, on_change, on_cancel)
 
-class NpmInstallCommand(NpmInstall, sublime_plugin.TextCommand):
+class NpmInstallPackageCommand(NpmInstallPackage, sublime_plugin.TextCommand):
 	def run(self, edit):
 		self.prompt_for_package_name(self.install_done)
 
@@ -22,7 +31,7 @@ class NpmInstallCommand(NpmInstall, sublime_plugin.TextCommand):
 		self.run_npm_and_show(['install']+package_name.split())
 
 
-class NpmInstallSaveCommand(NpmInstall, sublime_plugin.TextCommand):
+class NpmInstallPackageSaveCommand(NpmInstallPackage, sublime_plugin.TextCommand):
 	def run(self, edit):
 		self.prompt_for_package_name(self.install_done)
 
@@ -30,7 +39,7 @@ class NpmInstallSaveCommand(NpmInstall, sublime_plugin.TextCommand):
 		self.run_npm_and_show(['install']+package_name.split()+['--save'])
 
 
-class NpmInstallSaveDevCommand(NpmInstall, sublime_plugin.TextCommand):
+class NpmInstallPackageSaveDevCommand(NpmInstallPackage, sublime_plugin.TextCommand):
 	def run(self, edit):
 		self.prompt_for_package_name(self.install_done)
 

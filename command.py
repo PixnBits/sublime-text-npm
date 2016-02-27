@@ -7,11 +7,17 @@ class NpmCommand(CLI):
 		#json.loads(str(json_string))
 		return json.loads(json_string)
 
-	def run_npm(self, commands):
+	def get_dir_name(self):
 		active_file_name = self.view.file_name()
 		if not active_file_name:
+			sublime.error_message("Please open a file in your npm project so npm knows where to run")
+			return None
+		return os.path.dirname(active_file_name)
+
+	def run_npm(self, commands):
+		dir_name = self.get_dir_name()
+		if not dir_name:
 			return [-1, "", "Please open a file in your npm project so npm knows where to run"]
-		dir_name = os.path.dirname(active_file_name)
 		return_code, out, err = self.execute(commands, dir_name)
 		# return the process result
 		return [return_code, out, err]
@@ -21,7 +27,7 @@ class NpmCommand(CLI):
 		output_view = window.get_output_panel("textarea")
 		window.run_command("show_panel", {"panel": "output.textarea"})
 		output_view.set_read_only(False)
-		# sections commented out are the sublime v2 way, AFAIK they're the only bits preventing v2 compatability
+		# sections commented out are the sublime v2 way, AFAIK they're the only bits preventing v2 compatibility
 		# edit = output_view.begin_edit()
 		# output_view.insert(edit, output_view.size(), "Hello, World!")
 		output_view.run_command("append", {"characters": message})
