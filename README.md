@@ -49,6 +49,10 @@ If you don't see your favorite here, please [file an issue](https://github.com/P
 
 * Check for outdated packages: `npm outdated`
 
+[Run](https://docs.npmjs.com/cli/run-script):
+
+* Run Script: `npm run <script>`
+
 [Update](https://www.npmjs.org/doc/cli/npm-update.html):
 
 * Update Local Packages: `npm update` or `npm update <name>`
@@ -65,3 +69,7 @@ If you don't see your favorite here, please [file an issue](https://github.com/P
 [Test](https://docs.npmjs.com/cli/test):
 
 * Test a package: `npm test`
+
+Run Arbitrary:
+
+* Run something not covered here (basically, `npm <whatever your input was>`)

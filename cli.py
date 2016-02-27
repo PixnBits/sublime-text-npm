@@ -21,23 +21,21 @@ else:
     BINARY_NAME = 'npm'
 
 class CLI():
-    def load_settings(self):
-        # if self.settings:
-        #     return
-        self.settings = Settings()
-        if self.settings.has("path_to_npm"):
-            self.BINARY_FULL_PATH = self.settings.get("path_to_npm")
 
     def find_binary(self):
-        # TODO: memoize?
-        self.load_settings()
-        if self.BINARY_FULL_PATH:
-            return self.BINARY_FULL_PATH
+        # first use settings
+        settings = Settings()
+        if settings.has('path_to_npm'):
+            path_to_npm = settings.get('path_to_npm')
+            if path_to_npm: # ignore ''
+                return settings.get('path_to_npm') + '/' + BINARY_NAME
+        # then search in $PATH
         appendedPath = os.environ['PATH']+LOCAL_PATH
         for dir in appendedPath.split(os.pathsep):
             path = os.path.join(dir, BINARY_NAME)
             if os.path.exists(path):
                 return path
+        # nowhere? :(
         sublime.error_message(BINARY_NAME + ' could not be found in your $PATH. Check the installation guidelines - https://github.com/PixnBits/sublime-text-npm')
 
     def _prepare_command(self, command):
@@ -56,14 +54,17 @@ class CLI():
 
         return [command, cflags]
 
-    def execute(self, command, cwd):
+    def _execute_process(self, command, cwd):
         command, cflags = self._prepare_command(command)
         # copy our extra places to look (#16)
         environ = copy.copy(os.environ)
         environ['PATH'] += LOCAL_PATH
-        #print("environ[PATH]: "+environ['PATH'])
 
-        proc = subprocess.Popen(command,
+        settings = Settings()
+        if settings.has("path_to_npm"):
+            environ['PATH'] = settings.get("path_to_npm") + os.pathsep + environ['PATH']
+
+        return subprocess.Popen(command,
             shell=True,
             env=environ,
             cwd=cwd,
@@ -71,6 +72,10 @@ class CLI():
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             creationflags=cflags)
+
+    def execute(self, command, cwd):
+
+        proc = self._execute_process(command, cwd)
 
         stdout_data, stderr_data = proc.communicate()
         returncode = proc.wait()
@@ -84,9 +89,7 @@ class CLI():
 
     # based on http://stackoverflow.com/a/4418193
     def execute_long_running(self, command, cwd, on_readline, on_exit=None):
-        command, cflags = self._prepare_command(command)
-        process = subprocess.Popen(command, shell=True, cwd=cwd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, creationflags=cflags)
-        #process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        process = self._execute_process(command, cwd)
 
         process_handler = CliLong()
         process_handler.set_process(process)
