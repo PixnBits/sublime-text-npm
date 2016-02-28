@@ -142,6 +142,8 @@ class CliLong(object):
                     self.callback_exit(self.returncode)
                 return self.returncode
 
+            sublime.set_timeout_async(self._readlines, 5)
+
     def stop(self):
         if None == self.process.poll():
             self.terminating = True

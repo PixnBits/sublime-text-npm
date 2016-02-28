@@ -1,7 +1,11 @@
 [
   {
-    "caption": "npm: Install Package",
+    "caption": "npm: Install Saved Packages",
     "command": "npm_install"
+  },
+  {
+    "caption": "npm: Install Package",
+    "command": "npm_install_package"
   },
   {
     "caption": "npm: Install and Save Package",

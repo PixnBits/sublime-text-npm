@@ -30,9 +30,10 @@ If you don't see your favorite here, please [file an issue](https://github.com/P
 
 [Install](https://www.npmjs.org/doc/cli/npm-install.html):
 
-* Install Package: `npm install`
-* Install and Save Package: `npm install --save`
-* Install and Save Development Package: `npm install --save-dev`
+* Install Saved Packages: `npm install`
+* Install Package: `npm install <pkg name>`
+* Install and Save Package: `npm install <pkg name> --save`
+* Install and Save Development Package: `npm install <pkg name> --save-dev`
 
 [Uninstall]():
 
