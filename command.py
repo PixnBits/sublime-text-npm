@@ -78,3 +78,77 @@ class NpmScratchAppendCommand(sublime_plugin.TextCommand):
 			scratch_file.set_read_only(False)
 			scratch_file.insert(edit, scratch_file.size(), output)
 			scratch_file.set_read_only(True)
+
+
+# list of ScratchWorker instances
+scratch_workers = []
+
+class ScratchWorker(NpmCommand, sublime_plugin.EventListener):
+
+	def __init__(self):
+		# add us to the list
+		global scratch_workers
+		scratch_workers.append(self)
+
+	def __del__(self):
+		# remove us from the list
+		global scratch_workers
+		if self in scratch_workers:
+		  scratch_workers.remove(self)
+
+	def create_process(self, command_list, dir_name):
+		self.set_scratch_file(self.scratch(None, "npm "+ (" ".join(command_list)) ))
+		self.set_process(self.execute_long_running(command_list, dir_name, self.update_scratch_output, self.update_scratch_status))
+		self.update_scratch_status()
+
+	def set_process(self, cli_long):
+		self.process = cli_long
+
+	def set_scratch_file(self, scratch_file):
+		self.scratch_file = scratch_file
+		self.scratch_name = scratch_file.name()
+
+	def update_scratch_output(self, message):
+		self.scratch_append(self.scratch_file, message)
+
+	def update_scratch_status(self, status=None):
+		name = self.scratch_name
+		if 0 == status:
+			# successful exit
+			name += " [Finished]"
+		elif not status:
+			# running
+			name += " [Running]"
+		else:
+			# error exit
+			name += " [Error]"
+		self.scratch_file.set_name(name)
+
+	def on_close(self, view):
+		# static method, self isn't actually an instance of ScratchWorker
+		# find a worker in scratch_workers that has the view closed
+		# I'm no Python guru, and Python's utilities to do this are full of wats
+		# hence the debug messages are commented out, rather than removed
+		#print("ScratchWorker on_close")
+		focused_worker = None
+		global scratch_workers
+		for worker in scratch_workers:
+			if not hasattr(worker, 'scratch_file'):
+				continue
+			if worker.scratch_file == view:
+				focused_worker = worker
+				#print('found our worker')
+				break
+
+		if not focused_worker:
+			#print("closed view not in list")
+			return
+
+		#print("view closed "+str(focused_worker))
+		# stop the process
+		focused_worker.stop()
+		# remove ourself from the scratch_workers list
+		scratch_workers.remove(focused_worker)
+
+	def stop(self):
+		self.process.stop();
