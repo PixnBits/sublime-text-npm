@@ -66,5 +66,10 @@
   {
     "caption": "npm: Type Arbitrary Command",
     "command": "npm_run_arbitrary"
+  },
+
+  {
+    "caption": "npm: Run Script",
+    "command": "npm_run_script"
   }
 ]
