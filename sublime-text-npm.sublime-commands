@@ -9,11 +9,11 @@
   },
   {
     "caption": "npm: Install and Save Package",
-    "command": "npm_install_save"
+    "command": "npm_install_package_save"
   },
   {
     "caption": "npm: Install and Save Development Package",
-    "command": "npm_install_save_dev"
+    "command": "npm_install_package_save_dev"
   },
 
   {
