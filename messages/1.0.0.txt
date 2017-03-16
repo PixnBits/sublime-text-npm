@@ -1,0 +1,4 @@
+Enhancements
+============
+
+support `npm repo [<pkg>]` (#39)

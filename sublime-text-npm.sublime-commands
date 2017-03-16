@@ -71,5 +71,10 @@
   {
     "caption": "npm: Run Script",
     "command": "npm_run_script"
+  },
+
+  {
+    "caption": "npm: Open package repository page",
+    "command": "npm_repo_package"
   }
 ]
