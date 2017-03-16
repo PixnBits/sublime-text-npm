@@ -1,3 +1,6 @@
-Bug Fixes
-=========
-don't run a script when pressing escape (#43)
+Enhancements
+============
+
+add npm run-script <script name> (#34)
+add npm outdated (#26)
+config: path to npm (#30)
