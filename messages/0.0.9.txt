@@ -1,0 +1,3 @@
+Bug Fixes
+=========
+don't run a script when pressing escape (#43)
