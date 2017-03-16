@@ -20,6 +20,8 @@ class NpmRunScript(NpmCommand, sublime_plugin.TextCommand):
 		window.show_quick_panel(self.run_list, self.run_script)
 
 	def run_script(self, selected_index):
+		if selected_index == -1:
+			return
 		script_name = self.run_list[selected_index][0]
 		dir_name = self.get_dir_name()
 		if not dir_name:
